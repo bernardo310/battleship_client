@@ -1,19 +1,60 @@
+.cell{
+    width: 95px;
+    height: 95px;
+    margin: auto;
+}
+
 .su {
-    background-color: yellow;
+    background-color: gold;
+}
+.nn{
+    background-color: blue;
+    color: white;
 }
 
 .de {
-    background-color: red;
+    background-color: purple;
+    color: white;
 }
 
 .po {
-    background-color: blue;
+    background-color: orange;
 }
 
 .pa {
-    background-color: gray;
+    background-color: green;
 }
 
 .ac {
     background-color: coral;
+}
+div{
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+}
+.hit{
+    background-color: red;
+    color: white;
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    margin-top: "50%";
+}
+
+.miss{
+    background-color: white;
+    color: black;
+    border-radius: 50px;
+    height: 50px;
+    width: 50px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+.hit p{
+    margin: auto;
 }

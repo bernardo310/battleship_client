@@ -35,11 +35,23 @@ const TableroView = (props) => {
                             <tr>
                                 <th className={`${10-index}-nn`} key={'y'+(10-index)}>{10-index}</th>
                                 {ex.map((ey, index) => {
-                                    const parts = ey.split('-'); //[2] is ship first 2 letters
-                                    
+                                    const parts = ey.split('-'); 
+                                    //[0] x
+                                    //[1] y
+                                    //[2] ship first 2 letters
+                                    //[3] status
+                                    let status = "free";
+                                    if(parts[3]==="0")
+                                        status="free";
+                                    else if(parts[3]==="1")
+                                        status="miss";
+                                    else if(parts[3]==="2")
+                                        status="hit";
 
                                     return (
-                                        <td className={`${ey} ${!String(ey).includes('nn')? parts[2] : ''}`} key={ey}>{`${parseInt(parts[0])+1}-${parseInt(parts[1])+1}-${parts[2]}-${parts[3]}`}</td>
+                                        <td className={`cell ${ey} ${!String(ey).includes('nn')? parts[2] : 'nn'}`} key={ey}>
+                                            <div className={status}><p>{`${parts[2]==="nn" ? "": parts[2].toUpperCase()}`}</p></div>
+                                        </td>
                                         )
                                     })}
 

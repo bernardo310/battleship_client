@@ -268,7 +268,7 @@ const generarRandomTablero = () => {
                 }
             }
             for (let i = 0; i < barco.tam; i++) {
-                tableroLocal[start + i][end] = `${start + i}-${end}-${barco.barco}-0`
+                tableroLocal[start + i][end] = `${start + i}-${end}-${barco.barco}-2`
             }
             tableroInicialServer[serverShip].xi = start
             tableroInicialServer[serverShip].yi = end
