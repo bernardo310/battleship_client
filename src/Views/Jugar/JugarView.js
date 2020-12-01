@@ -1,15 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import { Button } from 'react-bootstrap';
-// import socketIOClient from "socket.io-client";
-// const ENDPOINT = "http://127.0.0.1:4001";
-
+import socketIOClient from "socket.io-client";
 import Tablero from '../Components/Tablero';
+
+const ENDPOINT = "https://e879df33d4d4.ngrok.io";
+
 
 const JugarView = (props) => {
     const [response, setResponse] = useState("");
     const [tableroJugador, setTableroJugador] = useState([])
     const [tableroServer, setTableroServer] = useState([])
     const [selected, setSelected] = useState("");
+
     useEffect(() => {
         const [tableroLocal, tableroServer] = generarRandomTablero();
         setTableroJugador(tableroLocal);
@@ -17,13 +19,20 @@ const JugarView = (props) => {
         // const socket = socketIOClient(ENDPOINT);
         // socket.on("FromAPI", data => {
         //     setResponse(data);
+        //     console.log(data)
         // });
-        // socket.on("algo", (data) => {
+        // socket.on("/room", (data) => {
         //     //algo
-        //   });
+        // });
+
+        const fetchData = async () => {
+            const response = await fetch(`${ENDPOINT}/room`)
+            console.log(response)
+        };
+        fetchData();
     }, []);
 
-    const updateTableroJugador = (x,y) => {
+    const updateTableroJugador = (x, y) => {
         //tableroJugador[x][y] = algo
         //setTableroJugador
     }
