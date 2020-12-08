@@ -3,20 +3,19 @@ import './styles.css'
 import { Table } from 'react-bootstrap'
 
 const TableroView = (props) => {
-    console.log(props)
     const tablero = [[], [], [], [], [], [], [], [], [], []]
     for (let i = 0; i < props.tablero.length; i++) {
         for (let j = 0; j < props.tablero[0].length; j++) {
             tablero[i][j] = <div>{props.tablero[i][j]}</div>
         }
     }
-    console.log(tablero)
     return (
         <div>
-            <p>tablero</p>
+            <p>{props.name}</p>
             <Table bordered={true}>
                 <thead>
                     <th>-X- |Y|</th>
+                    <th>0</th>
                     <th>1</th>
                     <th>2</th>
                     <th>3</th>
@@ -26,14 +25,13 @@ const TableroView = (props) => {
                     <th>7</th>
                     <th>8</th>
                     <th>9</th>
-                    <th>10</th>
                 </thead>
 
                 <tbody>
-                    {props.tablero.reverse().map((ex, index) => {
+                    {props.tablero.map((ex, index) => {
                         return (
                             <tr>
-                                <th className={`${10-index}-nn`} key={'y'+(10-index)}>{10-index}</th>
+                                <th className={`${index}-nn`} key={'y'+(index)}>{index}</th>
                                 {ex.map((ey, index) => {
                                     const parts = ey.split('-'); 
                                     //[0] x
