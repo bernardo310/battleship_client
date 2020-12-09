@@ -5,8 +5,7 @@ import Tablero from '../Components/Tablero';
 import './styles.css'
 import { navigate } from "@reach/router";
 
-//const ENDPOINT = "https://704de9ba3fa1.ngrok.io";
-const ENDPOINT = "http://localhost:3000";
+const ENDPOINT = "http://localhost:3000"; //cambiar cada vez
 const tableroFormato = [
     [
         '0-0-nn-0',
@@ -192,10 +191,12 @@ const JugarView = (props) => {
             socket.on('ganador', (data) => { // data: {y:2, x:2}
                 console.log("ganaste :) ");
                 setShowGanaste(true);
+                socket.disconnect();
             });
             socket.on('perdedor', (data) => { // data: {y:2, x:2}
                 console.log("perdiste :() ");
                 setShowPerdiste(true);
+                socket.disconnect();
             });
             socket.on('turno', () => {
                 setShowTurno(false);
