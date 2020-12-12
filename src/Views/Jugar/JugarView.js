@@ -133,13 +133,13 @@ const JugarView = (props) => {
     const [room, setRoom] = useState("");
     const [tableroJugador, setTableroJugador] = useState([]);
     const [tableroServer, setTableroServer] = useState([]);
-    const [selected, setSelected] = useState("");
     const [disparos, setDisparos] =useState([]);
     const [tableroEnemigo, setTableroEnemigo] = useState(tableroFormato);
     const [showPerdiste, setShowPerdiste] = useState(false);
     const [showGanaste, setShowGanaste] = useState(false);
     const [showEsperando, setShowEsperando] = useState(true);
     const [showTurno, setShowTurno] = useState(false);
+    const [lastHit, setLastHit] = useState("");
 
     useEffect(() => {
         const [tableroLocal, tableroServer] = generarRandomTablero();
@@ -169,24 +169,27 @@ const JugarView = (props) => {
             });
             
             socket.on('fracaso', (data) => { // data: {y:2, x:2}
-                console.log("no le diste :(",data);
                 const {x, y} = data;
-                updateTableroEnemigo(x,y,false);
+                console.log(`no le diste :( ${x}, ${y}`);
+                updateTableroEnemigo(y,x,false);
             });
             socket.on('exito', (data) => { // data: {y:2, x:2}
-                console.log("si le diste :)",data);
                 const {x, y} = data;
-                updateTableroEnemigo(x,y,true);
+                console.log(`si le diste :) ${x}, ${y}`);
+                //setLastHit(`${x}+${y}+1`);
+                //setLastHit(`${x}+${y}+1`);
+                //console.log(lastHit);
+                updateTableroEnemigo(y,x,true);
             });
             socket.on('salvado', (data) => { // data: {y:2, x:2}
-                console.log("no te dieron :)",data);
                 const {x, y} = data;
-                updateTableroJugador(x,y,false);
+                console.log(`no te dieron :) ${x}, ${y}`);
+                updateTableroJugador(y,x,false);
             });
             socket.on('impacto', (data) => { // data: {y:2, x:2}
-                console.log("si te dieron :(",data);
                 const {x, y} = data;
-                updateTableroJugador(x,y,true);
+                console.log(`si te dieron :( ${x}, ${y}`);
+                updateTableroJugador(y,x,true);
             });
             socket.on('ganador', (data) => { // data: {y:2, x:2}
                 console.log("ganaste :) ");
@@ -219,7 +222,7 @@ const JugarView = (props) => {
                         y: y
                     });
                     console.log("cambio de turno");
-                }, 2000);//espera 1 segundo cada disparo
+                }, 4000);//espera 1 segundo cada disparo
             });
         }
     }, [room]);
@@ -291,13 +294,13 @@ const JugarView = (props) => {
     }
 
     return (
-        <div>
+        <div >
             <h1>Battleship</h1>
-            <div>
                 {showEsperando ? alertaEsperando : ""}
-                {showTurno ? alertaTurno : ""}
+                {/* {showTurno ? alertaTurno : ""} */}
                 {showPerdiste ? alertaPerdiste : ""}
                 {showGanaste ? alertaGanaste : ""}
+            <div className="tableros"> 
                 <Tablero className='' tablero={tableroJugador} name="TU"/>
                 <Tablero className='' tablero={tableroEnemigo} name="ENEMIGO"/>
             </div>
@@ -473,6 +476,7 @@ const generarRandomTablero = () => {
             xf: 5
         }
     }
+    console.log(tableroInicialServer);
 
     //gen local tablero
     for (let barco of barcos) {
@@ -498,10 +502,10 @@ const generarRandomTablero = () => {
             for (let i = 0; i < barco.tam; i++) {
                 tableroLocal[start][end + i] = `${start}-${end + i}-${barco.barco}-0`
             }
-            tableroInicialServer[serverShip].xi = start
-            tableroInicialServer[serverShip].yi = end
-            tableroInicialServer[serverShip].xf = start
-            tableroInicialServer[serverShip].yf = end + barco.tam - 1
+            tableroInicialServer[serverShip].yi = start
+            tableroInicialServer[serverShip].xi = end
+            tableroInicialServer[serverShip].yf = start
+            tableroInicialServer[serverShip].xf = end + barco.tam - 1
         } else { //horizontal
             while (!disponible) {
                 start = Math.floor(Math.random() * limit) + 0; //y axis
@@ -517,10 +521,10 @@ const generarRandomTablero = () => {
             for (let i = 0; i < barco.tam; i++) {
                 tableroLocal[start + i][end] = `${start + i}-${end}-${barco.barco}-0`
             }
-            tableroInicialServer[serverShip].xi = start
-            tableroInicialServer[serverShip].yi = end
-            tableroInicialServer[serverShip].xf = start + barco.tam - 1
-            tableroInicialServer[serverShip].yf = end
+            tableroInicialServer[serverShip].yi = start
+            tableroInicialServer[serverShip].xi = end
+            tableroInicialServer[serverShip].yf = start + barco.tam - 1
+            tableroInicialServer[serverShip].xf = end
         }
     }
     return [tableroLocal, tableroInicialServer];
